@@ -25,16 +25,7 @@ const mainReducer = (state = initialState, action) => {
           ),
         },
       };
-    case "TOGGLE_FAVOURITE":
-      return {
-        ...state,
-        favourites: {
-          ...state.favourites,
-          content: state.favourites.content.filter(
-            (el) => el !== action.payload
-          ),
-        },
-      };
+
     default:
       return state;
   }
