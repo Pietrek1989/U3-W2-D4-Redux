@@ -28,7 +28,7 @@ const Favourite = () => {
               onClick={() => {
                 dispatch({
                   type: "REMOVE_FROM_FAVOURITE",
-                  payload: i,
+                  payload: favouriteItem,
                 });
               }}
             >

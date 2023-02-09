@@ -21,7 +21,17 @@ const mainReducer = (state = initialState, action) => {
         favourites: {
           ...state.favourites,
           content: state.favourites.content.filter(
-            (el, i) => i !== action.payload
+            (el, i) => el !== action.payload
+          ),
+        },
+      };
+    case "TOGGLE_FAVOURITE":
+      return {
+        ...state,
+        favourites: {
+          ...state.favourites,
+          content: state.favourites.content.filter(
+            (el) => el !== action.payload
           ),
         },
       };

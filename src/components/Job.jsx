@@ -1,9 +1,11 @@
 import { Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Job = ({ data }) => {
   const dispatch = useDispatch();
+  let favouriteList = useSelector((state) => state.favourites.content);
+
   return (
     <Row
       className="mx-0 mt-3 p-3"
@@ -16,20 +18,29 @@ const Job = ({ data }) => {
         <a href={data.url} target="_blank" rel="noreferrer">
           {data.title}
         </a>
-        <Button
-          onClick={() => {
-            // we want to add this book object to our cart.content
-            dispatch({
-              type: "ADD_TO_FAVOURITE",
-              payload: data,
-              // payload is the name of the property holding
-              // any other necessary piece of info for making
-              // our action usable, working, worthy
-            });
-          }}
-        >
-          <i className="bi bi-bookmark-heart"></i>
-        </Button>
+        {favouriteList.includes(data) ? (
+          <Button
+            onClick={() => {
+              dispatch({
+                type: "REMOVE_FROM_FAVOURITE",
+                payload: data,
+              });
+            }}
+          >
+            <i class="bi bi-check"></i>
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              dispatch({
+                type: "ADD_TO_FAVOURITE",
+                payload: data,
+              });
+            }}
+          >
+            <i className="bi bi-bookmark-heart"></i>
+          </Button>
+        )}
       </Col>
     </Row>
   );
