@@ -2,7 +2,7 @@ import { Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-const Job = ({ data, i }) => {
+const Job = ({ data }) => {
   const dispatch = useDispatch();
   let favouriteList = useSelector((state) => state.favourites.content);
 
