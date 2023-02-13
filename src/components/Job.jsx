@@ -1,10 +1,14 @@
 import { Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  addToFavouriteAction,
+  removeFromFavouriteAction,
+} from "../redux/actions";
 
 const Job = ({ data }) => {
   const dispatch = useDispatch();
-  let favouriteList = useSelector((state) => state.favourites.content);
+  let favouriteList = useSelector((state) => state.favourite.content);
 
   return (
     <Row
@@ -21,21 +25,15 @@ const Job = ({ data }) => {
         {favouriteList.includes(data) ? (
           <Button
             onClick={() => {
-              dispatch({
-                type: "REMOVE_FROM_FAVOURITE",
-                payload: data,
-              });
+              dispatch(removeFromFavouriteAction(data));
             }}
           >
-            <i class="bi bi-check"></i>
+            <i className="bi bi-check"></i>
           </Button>
         ) : (
           <Button
             onClick={() => {
-              dispatch({
-                type: "ADD_TO_FAVOURITE",
-                payload: data,
-              });
+              dispatch(addToFavouriteAction(data));
             }}
           >
             <i className="bi bi-bookmark-heart"></i>

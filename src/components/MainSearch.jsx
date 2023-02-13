@@ -2,11 +2,14 @@ import { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Job from "./Job";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getJobsListActionAsync } from "../redux/actions";
 
 const MainSearch = () => {
   const [query, setQuery] = useState("");
-  const [jobs, setJobs] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const jobsFromTheReduxStore = useSelector((state) => state.jobs.jobList);
 
   const baseEndpoint =
     "https://strive-benchmark.herokuapp.com/api/jobs?search=";
@@ -17,18 +20,7 @@ const MainSearch = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await fetch(baseEndpoint + query + "&limit=20");
-      if (response.ok) {
-        const { data } = await response.json();
-        setJobs(data);
-      } else {
-        alert("Error fetching results");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(getJobsListActionAsync(baseEndpoint, query));
   };
 
   return (
@@ -37,7 +29,7 @@ const MainSearch = () => {
         <Col xs={10} className="mx-auto my-3 d-flex justify-content-between">
           <h1>Remote Jobs Search</h1>
           <Button onClick={() => navigate("/Favourite")} variant="danger">
-            <i class="bi bi-balloon-heart-fill"></i> Favourites
+            <i className="bi bi-balloon-heart-fill"></i> Favourites
           </Button>
         </Col>
         <Col xs={10} className="mx-auto">
@@ -51,7 +43,7 @@ const MainSearch = () => {
           </Form>
         </Col>
         <Col xs={10} className="mx-auto mb-5">
-          {jobs.map((jobData, i) => (
+          {jobsFromTheReduxStore.map((jobData, i) => (
             <Job key={jobData._id} data={jobData} i={i} />
           ))}
         </Col>
