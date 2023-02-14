@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Job from "./Job";
 import { useParams } from "react-router-dom";
-import { getJobsSearchActionAsync } from "../redux/actions";
+// import { getJobsSearchActionAsync } from "../redux/actions";
 import { useSelector } from "react-redux";
+import { getJobsListActionAsync } from "../redux/actions";
 
 const CompanySearchResults = () => {
   const params = useParams();
@@ -13,7 +14,7 @@ const CompanySearchResults = () => {
     "https://strive-benchmark.herokuapp.com/api/jobs?search=";
 
   useEffect(() => {
-    getJobsSearchActionAsync(baseEndpoint, params.companyName);
+    getJobsListActionAsync(baseEndpoint, params.companyName);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
