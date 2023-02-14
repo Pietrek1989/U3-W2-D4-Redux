@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
 import Job from "./Job";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +18,8 @@ const MainSearch = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const jobsFromTheReduxStore = useSelector((state) => state.jobs.jobList);
+  const applicationSpinner = useSelector((state) => state.jobs.isLoading);
+  const applicationError = useSelector((state) => state.jobs.isError);
 
   const baseEndpoint =
     "https://strive-benchmark.herokuapp.com/api/jobs?search=";
@@ -43,6 +53,14 @@ const MainSearch = () => {
           </Form>
         </Col>
         <Col xs={10} className="mx-auto mb-5">
+          {applicationSpinner && (
+            <Spinner animation="border" variant="success" />
+          )}
+          {applicationError && (
+            <Alert variant="danger" className="mr-2">
+              Something very bad happened with the job listings 😨
+            </Alert>
+          )}
           {jobsFromTheReduxStore.map((jobData, i) => (
             <Job key={jobData._id} data={jobData} i={i} />
           ))}
